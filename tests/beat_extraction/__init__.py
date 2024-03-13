@@ -1,0 +1,1 @@
+from .test_tempo import test_beats_visual
