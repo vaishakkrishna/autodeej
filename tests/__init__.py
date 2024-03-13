@@ -1,1 +1,1 @@
-from .beat_extraction import test_beats_visual
+from .beat_extraction import BeatExtractTests

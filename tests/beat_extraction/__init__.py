@@ -1,1 +1,1 @@
-from .test_tempo import test_beats_visual
+from .test_tempo import BeatExtractTests

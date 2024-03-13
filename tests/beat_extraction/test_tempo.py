@@ -1,66 +1,46 @@
 
 # import pygame module in this program 
-import time
+import unittest
 import pygame 
-from feature_extraction import extract_beats_timestamps  
+from feature_extraction import extract_beats_timestamps
+from utils import init_pygame
+from utils.pygame import handle_events  
+class BeatExtractTests(unittest.TestCase):
+    def test_beats_visual_drake(self):  
+        song_filepath = "assets/songs/Drake - Pain 1993 (Audio) ft. Playboi Carti.mp3"
+        print(f"Testing song: {song_filepath}")
+        init_pygame()
+        surf_1 = pygame.Surface((50, 50))
+        surf_1.fill((255, 255, 255))
+        surf_1.get_rect()
+        click = pygame.mixer.Sound("assets/sounds/click.mp3")
+        offset = 90
+        beats = (extract_beats_timestamps(song_filepath) * 1000) - offset
+        pygame.mixer.pre_init(frequency=22050, size=-16, channels=2, buffer=256)
+        pygame.mixer.music.load(song_filepath)
+        pygame.mixer.music.play()
+        clock_offset = pygame.time.get_ticks()
+        clock = 0
+        counter = 0
+        track1_move_next_time = beats[counter]
 
-def test_beats_visual(song_filepath):  
-
-    pygame.init() 
-    
-    colors = [ (0, 255, 0) ,
-    (0, 0, 128) ,
-    (0, 0, 0) ,
-    (255, 0, 0) ]
-    
-    # assigning values to X and Y variable 
-    X = 400
-    Y = 400
-    
-    screen = pygame.display.set_mode((X, Y )) 
-    
-    pygame.display.set_caption('Drawing') 
-    
-    screen.fill((255, 255, 255)) 
-
-    # Create a surface and pass in a tuple containing its length and width
-    surf_1 = pygame.Surface((50, 50))
-
-    # Give the surface a color to separate it from the background
-    surf_1.fill(colors[3])
-    surf_1.get_rect()
-
-    # Create a surface and pass in a tuple containing its length and width
-    surf_2 = pygame.Surface((50, 50))
-
-    # Give the surface a color to separate it from the background
-    surf_2.fill((0, 0, 0))
-    surf_2.get_rect()
-    beats = extract_beats_timestamps(song_filepath)
-    clock = pygame.time.get_ticks()
-    counter = 0
-    track1_move_next_time = beats[counter]
-
-    while True :     
-        # iterate over the list of Event objects 
-        # that was returned by pygame.event.get() method. 
-        for event in pygame.event.get() : 
-            
-            # if event object type is QUIT 
-            # then quitting the pygame 
-            # and program both. 
-            if event.type == pygame.QUIT : 
-    
-                # deactivates the pygame library 
-                pygame.quit() 
-    
-                # quit the program. 
-                quit() 
-    
-        clock = pygame.time.get_ticks()
+        while True :     
+            # iterate over the list of Event objects 
+            # that was returned by pygame.event.get() method. 
+                
+            handle_events(pygame.event.get())
         
-        if clock > track1_move_next_time:
-            screen.blit(surf_1 if counter%2 else surf_2, (X/2, Y/2))
-            counter +=1 
-            track1_move_next_time = beats[counter]
-        pygame.display.flip()
+            clock = pygame.time.get_ticks() - clock_offset
+            
+            if clock > track1_move_next_time:
+                # screen.blit(surf_1 if counter%2 else surf_2, (X/2, Y/2))
+                pygame.draw.circle(surf_1, (0, 0, 0), (200, 200), 50)
+                pygame.display.update()
+                click.play()
+                counter +=1 
+                track1_move_next_time = beats[counter]
+                
+            pygame.display.flip()
+
+if __name__ == "__main__":
+    unittest.main()
