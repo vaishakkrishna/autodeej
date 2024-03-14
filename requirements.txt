@@ -1,2 +1,7 @@
 librosa==0.10.1
 pygame==2.5.2
+matplotlib==3.8.3
+pychorus==0.1
+msaf==0.1.80
+pydub==0.25.1
+beatnet==1.1.1
