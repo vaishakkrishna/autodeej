@@ -1,4 +1,4 @@
-from feature_extraction import detect_sections, Tonal_Fragment, extract_tempo_and_beats
+from feature_extraction import detect_sections, Tonal_Fragment, extract_downbeats
 import librosa
 import logging
 
@@ -21,7 +21,7 @@ class Song:
         logging.info("DONE!")
         logging.info("Detecting beats...")
         
-        self.tempo, self.beats = extract_tempo_and_beats(song_filename)
+        self.tempo, self.beats = extract_downbeats(song_filename)
         logging.info("DONE!")
         
     def get_tempo(self):

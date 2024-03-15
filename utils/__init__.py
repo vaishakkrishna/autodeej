@@ -1,1 +1,1 @@
-from .pygame import init_pygame, play_song_with_clicks
+from .pygame import init_pygame, play_song_with_clicks, add_clicks_to_song
